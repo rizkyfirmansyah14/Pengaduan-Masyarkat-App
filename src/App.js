@@ -1,24 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from 'react';
+import MySwal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import Login from './Components/Login'
+import Register from './Components/Register';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from 'react-router-dom';
+import DashboardScreen from './Screens/DashboardScreen';
 
-function App() {
+function App(props) {
+  const [state, setState] = useState({
+    loggedIn: false,
+    user: {}
+  })
+  
+  const url_api = `https://dev.farizdotid.com/api/daerahindonesia`
+  const URL_API = `http://localhost:8000`
+  const [loading, setLoading] = useState(false)
+  const Swal = withReactContent(MySwal)
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <Router>
+      <Switch>
+          <Route 
+              exact 
+              path='/'
+              render={props=> (
+                <Login {...props} data={state} setData={setState} />
+                )}
+                />
+
+                 {/* Route Dashboard*/}
+                  <Route path="/dashboard">
+                    <DashboardScreen/>
+                  </Route>
+
+                   {/* Route Dashboard*/}
+                   <Route path="/register">
+                    <Register/>
+                  </Route>
+      </Switch>
+</Router>
+</>
   );
 }
 
